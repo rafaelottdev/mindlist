@@ -1,0 +1,63 @@
+.header {
+    height: 90px;
+
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+
+.nav {
+}
+
+.nav_list {
+    padding: 3px 30px;
+
+    display: flex;
+    gap: 10px;
+
+    border-radius: 20px;
+
+    background-color: #000000;
+}
+
+.nav_list_item {
+
+}
+
+.nav_list_item > a {
+    padding: 5px 10px;
+    display: block;
+
+    border-radius: 10px;
+}
+
+.nav_list_item > a:hover {
+    background-color: rgba(255, 255, 255, 0.132);
+}
+
+.nav_list_item > a > svg {
+    color: white;
+    font-size: 21px;
+}
+
+.h_bar {
+    height: 2px;
+
+    background-color: green;
+}
+
+.nav_list_item:nth-child(1) .h_bar {
+    background-color: white;
+}
+
+.nav_list_item:nth-child(2) .h_bar {
+    background-color: #FF6F00;
+}
+
+.nav_list_item:nth-child(3) .h_bar {
+    background-color: #1EFF00;
+}
+
+.nav_list_item:nth-child(4) .h_bar {
+    background-color: #FF0000;
+}
