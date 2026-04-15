@@ -1,8 +1,9 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { usePasswordToggle } from "../../hooks/usePasswordToggle"
+import { useFeedback } from "../../hooks/useFeedback"
 
 import type { User } from "../../types/User"
-import { getUsers } from "../../services/getUsers"
+import { supabase } from "../../lib/supabase"
 
 import styles from "./Login.module.css"
 
@@ -11,9 +12,11 @@ import { FaEyeSlash } from "react-icons/fa"
 import { FaClipboardList } from "react-icons/fa"
 import { useState } from "react"
 
-
 function Login() {
     const { showPassword, togglePassword } = usePasswordToggle()
+    const { error, showError } = useFeedback()
+
+    const navigate = useNavigate()
 
     const [user, setUser] = useState<User>({
         name: "",
@@ -32,12 +35,28 @@ function Login() {
 
     const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        try {
+            const { error } = await supabase.auth.signInWithPassword({
+                email: user.email,
+                password: user.password
+            })
+
+            if(error) {
+                showError(error.message)
+                return
+            }
+
+            setUser({name: "", email: "", password: ""})
+
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
+        }
         
-        const usersData: User[] = await getUsers()
-
-        const currentUser = usersData.filter((u: User) => u.email === user.email && u.password === user.password)
-
-        console.log(currentUser)
+        catch(error) {
+            showError("Erro ao cadastrar usuario")
+        }
     }
 
     return (
@@ -48,6 +67,8 @@ function Login() {
                     <span>Mind</span> List
                 </h1>
             </section>
+
+            {error && <p className={styles.error}>{error}</p>}
 
             <form className={styles.login_form} onSubmit={handleSubmit}>
                 <h2 className={styles.form_title}>Login</h2>

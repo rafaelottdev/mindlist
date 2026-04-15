@@ -1,9 +1,31 @@
-import { Navigate } from "react-router";
+import { Navigate } from "react-router"
+import { useEffect, useState } from "react"
+import { supabase } from "../lib/supabase"
 
 export function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const isLogged = localStorage.getItem("user")
+  const [session, setSession] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-  return isLogged ? children : <Navigate to="/login" />
+  useEffect(() => {
+    supabase.auth.getSession().then(( {data} ) => {
+      setSession(data.session)
+      setLoading(false)
+    })
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session)
+      }
+    )
+
+    return () => {
+      listener.subscription.unsubscribe()
+    }
+  }, [])
+
+  if(loading) return <p>Loading...</p>
+
+  return session ? children : <Navigate to="/login" />
 }
 
 export default PrivateRoute

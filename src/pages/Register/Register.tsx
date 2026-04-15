@@ -1,11 +1,11 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 
 import { usePasswordToggle } from "../../hooks/usePasswordToggle"
+import { useFeedback } from "../../hooks/useFeedback"
 
 import type { User } from "../../types/User"
-import { createUser } from "../../services/createUser"
-import { getUsers } from "../../services/getUsers"
+import { supabase } from "../../lib/supabase"
 
 import styles from "./Register.module.css"
 
@@ -17,6 +17,8 @@ const passwordRegex: RegExp = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{10}$/
 
 function Register() {
     const { showPassword, togglePassword } = usePasswordToggle()
+    const { error, success, showError, showSuccess } = useFeedback()
+    
     const navigate = useNavigate()
 
     const [user, setUser] = useState<User>({
@@ -24,11 +26,8 @@ function Register() {
         email: "",
         password: ""
     })
-    const [error, setError] = useState<string | null>(null)
-    const [success, setSuccess] = useState<string | null>(null);
+    
     const [loading, setLoading] = useState(false)
-
-    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -39,67 +38,38 @@ function Register() {
         }))
     }
 
-    const showError = (message: string) => {
-        setSuccess(null)
-        setError(message)
-
-        if(timeoutRef.current) {
-            clearTimeout(timeoutRef.current)
-        }
-
-        timeoutRef.current = setTimeout(() => {
-            setError(null)
-        }, 1500)
-    }
-
-    const showSuccess = (message: string) => {
-        setError(null)
-        setSuccess(message)
-
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-
-        timeoutRef.current = setTimeout(() => {
-            setSuccess(null);
-        }, 1500);
-    }
-
     const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         setLoading(true)
 
         try {
-            const usersData: User[] = await getUsers()
-    
-            const nameExists: boolean = usersData.some((u: User) => u.name === user.name)
-            const emailExists: boolean = usersData.some((u: User) => u.email === user.email)
             const validPass: boolean = passwordRegex.test(user.password)
-    
-            if (nameExists) {
-                showError("Nome já cadastrado")
-                return
-            }
-    
-            if (emailExists) {
-                showError("Email já cadastrado")
-                return
-            }
-    
+            
             if (!validPass) {
                 showError("Senha muito fraca")
                 return
             }
     
-            await createUser(user)
+            // supabase
+            const { error } = await supabase.auth.signUp({
+                email: user.email,
+                password: user.password,
+                options: {
+                    data: {
+                        name: user.name
+                    }
+                }
+            })
 
-            localStorage.setItem("user", JSON.stringify(user));
+            if(error) {
+                showError(error.message)
+                return
+            }
 
             showSuccess("Usuário cadastrado com sucesso!")
             
             setUser({name: "", email: "", password: ""})
-
 
             setTimeout(() => {
                 navigate("/");

@@ -157,3 +157,19 @@
     letter-spacing: .5px;
     color: white;
 }
+
+.error {
+    color: #ff4d4f;
+    background: #fff1f0;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.success {
+    color: #52c41a;
+    background: #f6ffed;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
