@@ -2,62 +2,121 @@
     height: 90px;
 
     display: flex;
-    align-items: end;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0px 50px;
 }
 
-.nav {
+.page_title_container > h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    font-size: 24px;
+    letter-spacing: 1px;
+    font-family: "Gravitas One";
+
+    color: transparent;
+    -webkit-text-stroke: .2px rgba(255, 255, 255, 0.848);
 }
+
+.page_title_icon > svg {
+    display: block;
+
+    color: rgba(255, 255, 255, 0.848);
+}
+
+/* aqui */
 
 .nav_list {
-    padding: 3px 30px;
+    width: 430px;
+    height: 35px;
+
+    padding: 0px 20px;
 
     display: flex;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 14px;
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
 
     border-radius: 20px;
 
-    background-color: #000000;
-}
-
-.nav_list_item {
-
+    background-color: rgba(255, 255, 255, 0.059);
 }
 
 .nav_list_item > a {
     padding: 5px 10px;
-    display: block;
+    position: relative;
 
-    border-radius: 10px;
-}
+    border-radius: 3px;
 
-.nav_list_item > a:hover {
-    background-color: rgba(255, 255, 255, 0.132);
-}
-
-.nav_list_item > a > svg {
     color: white;
+}
+
+.nav_list_item > a::before {
+    content: "";
+    width: 0%;
+    height: 1px;
+
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+
+    background-color: white;
+    transition: .2s;
+}
+
+.nav_list_item > a:hover::before {
+    width: 100%;
+}
+
+.nav_list_item > a.active::before {
+    width: 100%;
+}
+
+.menu_section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.user_name {
+    font-size: 14px;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+
+    color: white;
+}
+
+.logou_btn {
+    padding: 5px 5px 3px 5px;
+
+    display: flex;
+
+    cursor: pointer;
+    background-color: transparent;
+    transition: .2s;
+}
+
+.logou_btn:hover {
+    transform: scale(1.1);
+}
+
+.logou_btn > svg {
+    fill: white;
     font-size: 21px;
 }
 
-.h_bar {
-    height: 2px;
-
-    background-color: green;
-}
-
-.nav_list_item:nth-child(1) .h_bar {
-    background-color: white;
-}
-
-.nav_list_item:nth-child(2) .h_bar {
-    background-color: #FF6F00;
-}
-
-.nav_list_item:nth-child(3) .h_bar {
-    background-color: #1EFF00;
-}
-
-.nav_list_item:nth-child(4) .h_bar {
-    background-color: #FF0000;
+.show {
+    height: 55px;
 }

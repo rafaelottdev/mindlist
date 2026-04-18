@@ -1,49 +1,100 @@
-import { FaHouse } from "react-icons/fa6";
-import { RiRefreshFill } from "react-icons/ri";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { FaCircleXmark } from "react-icons/fa6";
 import { NavLink } from "react-router";
+
+import { useFeedback } from "../../hooks/useFeedback";
 
 import styles from "./Header.module.css"
 
+import { FaClipboardList } from "react-icons/fa"
+import { supabase } from "../../lib/supabase";
+import { useEffect, useState } from "react";
+import { MdOutlineLogout } from "react-icons/md";
+
 function Header() {
+    const [userName, setUserName] = useState<string | null>(null)
+    const [session, setSession] = useState<any>(null)
+    const { showError } = useFeedback()
+    
+    useEffect(() => {
+        supabase.auth.getUser().then(({ data }) => {
+            setUserName(data.user?.user_metadata?.name || null)
+        })
+
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+            const name: string | null = session?.user?.user_metadata?.name
+            setUserName(name || null)
+        })
+
+        return () => {
+            listener.subscription.unsubscribe()
+        }
+    }, [])
+
+    const logoutAccount = async () => {
+        const { error } = await supabase.auth.signOut()
+
+        if(error) {
+            showError(error.message)
+            return
+        }
+    }
+
+    useEffect(() => {
+        const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+            setSession(session)
+        })
+
+        return () => listener.subscription.unsubscribe()
+    }, [])
+
     return (
         <header className={styles.header}>
+            <section className={styles.page_title_container}>
+                <h1>
+                    <span>Mind</span>
+                    
+                    <span className={styles.page_title_icon}>
+                        <FaClipboardList />
+                    </span>
+                    
+                    <span>List</span>
+                </h1>
+            </section>
+
             <nav className={styles.nav}>
                 <ul className={styles.nav_list}>
                     <li className={styles.nav_list_item}>
-                        <NavLink to="/">
-                            <FaHouse />
-
-                            <div className={styles.h_bar}></div>
+                        <NavLink to="/" className={({ isActive }) => isActive ? `${styles.active}` : ""}>
+                            Home
                         </NavLink>
                     </li>
 
                     <li className={styles.nav_list_item}>
-                        <NavLink to="/inprogress">
-                            <RiRefreshFill />
-
-                            <div className={styles.h_bar}></div>
+                        <NavLink to="/inprogress" className={({ isActive }) => isActive ? `${styles.active}` : ""}>
+                            Ativas
                         </NavLink>
                     </li>
 
                     <li className={styles.nav_list_item}>
-                        <NavLink to="/completed">
-                            <IoIosCheckmarkCircle />
-
-                            <div className={styles.h_bar}></div>
+                        <NavLink to="/completed" className={({ isActive }) => isActive ? `${styles.active}` : ""}>
+                            Completas
                         </NavLink>
                     </li>
 
                     <li className={styles.nav_list_item}>
-                        <NavLink to="/canceled">
-                            <FaCircleXmark />
-
-                            <div className={styles.h_bar}></div>
+                        <NavLink to="/canceled" className={({ isActive }) => isActive ? `${styles.active}` : ""}>
+                            Canceladas
                         </NavLink>
                     </li>
                 </ul>
             </nav>
+
+            <section className={styles.menu_section}>
+                <p className={styles.user_name}>{userName}</p>
+
+                <button className={styles.logou_btn} onClick={logoutAccount}>
+                    <MdOutlineLogout />
+                </button>
+            </section>
         </header>
     )
 }

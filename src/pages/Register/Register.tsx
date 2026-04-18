@@ -45,6 +45,12 @@ function Register() {
 
         try {
             const validPass: boolean = passwordRegex.test(user.password)
+            const { data: existingUser } = await supabase.from("users").select("*").eq("email", user.email).single()
+
+            if(existingUser) {
+                showError("Email ja cadastrado")
+                return
+            }
             
             if (!validPass) {
                 showError("Senha muito fraca")
@@ -103,7 +109,7 @@ function Register() {
 
                 <div className={`${styles.name_container} ${styles.input_container}`}>
                     <label htmlFor="name">Nome</label>
-                    <input type="text" name="name" id="name" placeholder="Digite seu nome" autoComplete="off" value={user.name}
+                    <input type="text" name="name" id="name" placeholder="Digite seu nome" autoComplete="off" maxLength={15} value={user.name}
                         onChange={handleChange} 
                     />
                 </div>
