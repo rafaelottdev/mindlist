@@ -1,0 +1,72 @@
+.projects_section {
+    padding: 50px;
+}
+
+.projects_list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.create_new_project_item {
+    position: relative;
+}
+
+.create_new_project_btn {
+    width: 200px;
+    height: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: capitalize;
+
+    border-radius: 10px;
+
+    user-select: none;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+
+    transition: .2s ease;
+}
+
+.create_new_project_btn:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo Interativo */
+
+.project_loading {
+  width: 300px;
+  height: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.project_loading::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

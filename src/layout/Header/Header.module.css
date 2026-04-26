@@ -57,6 +57,7 @@
     border-radius: 3px;
 
     color: white;
+    user-select: none;
 }
 
 .nav_list_item > a::before {

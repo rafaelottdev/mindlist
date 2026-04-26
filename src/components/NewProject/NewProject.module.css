@@ -1,0 +1,94 @@
+.newProject_container {
+    width: 200px;
+    height: 0;
+
+    overflow: hidden;
+    
+    margin-top: 10px;
+    padding: 0px;
+
+    position: absolute;
+
+    font-family: "lato";
+    border-radius: 5px;
+    background-color: black;
+
+    transition: all .3s ease;
+}
+
+.upload_image_container > label {
+    width: 100%;
+    padding: 5px;
+
+    font-size: 14px;
+    letter-spacing: .5px;
+
+    display: block;
+
+    border-radius: 3px;
+    cursor: pointer;
+
+    color: white;
+    background-color: rgba(255, 255, 255, 0.086);
+}
+
+.project_name {
+    margin-top: 5px;
+}
+
+.project_name > input {
+    width: 100%;
+
+    padding: 5px;
+
+    font-family: "lato";
+    letter-spacing: .5px;
+
+    border-radius: 3px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.086);
+}
+
+.project_btn_container {
+    width: 100%;
+
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project_btn_container > button {
+    cursor: pointer;
+}
+
+.project_btn_container > button:nth-child(1) {
+    padding: 4px 0px 0px 3px;
+    background-color: transparent;
+}
+
+.project_btn_container > button:nth-child(1) > svg {
+    font-size: 16px;
+    fill: rgba(255, 255, 255, 0.242);
+}
+
+.project_btn_container > button:nth-child(2) {
+    padding: 3px 20px;
+
+    letter-spacing: .5px;
+    font-weight: bold;
+    
+    border-radius: 3px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.086);
+}
+
+.project_btn_container > button:nth-child(2):hover {
+    transform: scale(1.05);
+}
+
+.show_modal {
+    height: 110px;
+    padding: 10px;
+}
