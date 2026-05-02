@@ -75,6 +75,7 @@ function ProjectPage() {
 
         catch(error) {
             console.log(error)
+            setCreatingList(false)
         }
 
         finally {

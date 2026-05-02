@@ -19,9 +19,13 @@ function List({ id, title, status, onUpdate }: Props) {
     const [openInput, setOpenInput] = useState<boolean>(false)
     const [handleChange, setHandleChange] = useState<string>(title)
     const [taskForm, setTaskForm] = useState<boolean>(false)
+    const [creatingTask, setCreatingTask] = useState<boolean>(false)
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
+
+    const [taskTitle, setTaskTitle] = useState<string>("")
+    const [tasks, setTasks] = useState<any[]>([])
 
     const loadingGlobalTimer: number = 1000
 
@@ -32,13 +36,11 @@ function List({ id, title, status, onUpdate }: Props) {
 
         if(newCompleted) {
             await supabase.from("lists").update({ status:  "completed" }).eq("id", id)
-            console.log("completed")
             
         }
 
         else {
             await supabase.from("lists").update({ status:  "active" }).eq("id", id)
-            console.log("active")
         }
     }
 
@@ -49,6 +51,11 @@ function List({ id, title, status, onUpdate }: Props) {
         setIsEditing(true)
 
         const newListTitle = handleChange
+
+        if(!newListTitle) {
+            setIsEditing(false)
+            return
+        }
 
         try {
             await supabase.from("lists").update({ title: newListTitle }).eq("id", id)
@@ -67,6 +74,8 @@ function List({ id, title, status, onUpdate }: Props) {
             setOpenInput(false)
             setIsEditing(false)
         }, loadingGlobalTimer)
+
+        setHandleChange("")
     }
 
     const deleteList = async (e: React.MouseEvent) => {
@@ -91,11 +100,71 @@ function List({ id, title, status, onUpdate }: Props) {
         }
 
         setIsDeleting(false)
-        
+    }
+
+    const fetchTasks = async () => {
+        const { data: sessionData } = await supabase.auth.getSession()
+        const user = sessionData.session?.user
+
+        if(!user) return
+
+        const { data, error } = await supabase.from("tasks").select("*").eq("list_id", id).order("position", {ascending: true})
+
+        if(error) {
+            console.log(error)
+            return
+        }
+
+        setTasks(data)
+    }
+
+    const handleCreateTask = async () => {
+        setCreatingTask(true)
+
+        try {
+            if(!taskTitle) return
+
+            setTaskForm(false)
+
+            await new Promise((resolve) => {
+                setTimeout(resolve, loadingGlobalTimer)
+            })
+
+            const { data: sessionData } = await supabase.auth.getSession()
+            const user = sessionData.session?.user
+
+            if(!user) return
+
+            const { data: lastTasks } = await supabase.from("tasks").select("position").eq("list_id", id).order("position", {ascending: false}).limit(1)
+            const lastTask = lastTasks?.[0]
+            const newPosition = lastTask ? lastTask.position + 1 : 0
+
+            await supabase.from("tasks").insert({
+                title: taskTitle,
+                list_id: id,
+                user_id: user.id,
+                status: "active",
+                position: newPosition
+            })
+
+            await fetchTasks()
+        }
+
+        catch(error) {
+            console.log(error)
+            setCreatingTask(false)
+        }
+
+        finally {
+            setCreatingTask(false)
+        }
+
+        setTaskTitle("")
     }
 
     useEffect(() => {
         onUpdate()
+        fetchTasks()
     }, [])
 
     return (
@@ -127,7 +196,7 @@ function List({ id, title, status, onUpdate }: Props) {
                 </div>
 
                 <div className={styles.header_menu}>
-                    <button onClick={() => setOpenInput(!openInput)}>
+                    <button onClick={() => { setOpenInput(!openInput); setHandleChange(""); setTaskForm(false) }}>
                         <BiSolidPencil />
                     </button>
                     
@@ -135,27 +204,43 @@ function List({ id, title, status, onUpdate }: Props) {
                         {
                             isDeleting ? <div className={styles.spinner}></div> : <FaTrash />
                         }
-                        
                     </button>
                 </div>
             </div>
 
             <ul className={styles.task_list}>
-                {/* <Task /> */}
+                {
+                    tasks.map((task) => (
+                        <Task 
+                            key={task.id}
+                            id={task.id}
+                            title={task.title}
+                            status={task.status}
+                            onUpdate={fetchTasks}
+                        />
+                    ))
+                }
+
+                {
+                    creatingTask &&
+                    <li>
+                        <div className={styles.task_loading}></div>
+                    </li>
+                }
             </ul>
 
             <div className={styles.add_task_container}>
-                <button onClick={() => setTaskForm(!taskForm)}>+ Adicionar Tarefa</button>
+                <button onClick={() => { setTaskForm(!taskForm); setOpenInput(false) }}>+ Adicionar Tarefa</button>
 
-                <form className={`${styles.add_task_form} ${taskForm ? styles.show_task_form : styles.hide_task_form}`}>
+                <form className={`${styles.add_task_form} ${taskForm ? styles.show_task_form : styles.hide_task_form}`} onSubmit={(e) => { e.preventDefault(); handleCreateTask() }}>
                     <div className={styles.input_container}>
-                        <textarea maxLength={20}/>
+                        <textarea maxLength={20} value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)}/>
                     </div>
 
                     <div className={styles.add_task_buttons}>
                         <button type="submit">Adicionar</button>
 
-                        <button>
+                        <button onClick={() => {setTaskForm(false); setTaskTitle("")}}>
                             <FaCircleXmark />
                         </button>
                     </div>
