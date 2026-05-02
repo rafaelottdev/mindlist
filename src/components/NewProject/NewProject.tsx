@@ -55,12 +55,25 @@ function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }:
 
             const imageUrl = data.publicUrl
 
+            // novo
+            const { data: lastProjects } = await supabase
+            .from("projects")
+            .select("position")
+            .eq("user_id", user.id)
+            .order("position", { ascending: false })
+            .limit(1)
+
+            const lastProject = lastProjects?.[0]
+            const newPosition = lastProject ? lastProject.position + 1 : 0
+            // ------------------------
+
             // salvar no banco
             const { error: insertError } = await supabase.from("projects").insert({
                 name,
                 image_url: imageUrl,
                 user_id: user.id,
-                status: "active"
+                status: "active",
+                position: newPosition
             })
 
             if(insertError) {

@@ -80,18 +80,6 @@
     font-size: 17px;
 }
 
-/* .project_info_list > li:nth-child(1) > button > svg {
-    fill: orange;
-}
-
-.project_info_list > li:nth-child(2) > button > svg {
-    fill: red;
-}
-
-.project_info_list > li:nth-child(3) > button > svg {
-    fill: green;
-} */
-
 .project_trash_btn {
     margin-top: 5px;
     margin-left: 30px;

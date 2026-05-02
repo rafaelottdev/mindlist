@@ -1,0 +1,245 @@
+.list_item {
+    width: 250px;
+    
+    margin-bottom: 10px;
+    padding: 15px;
+
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.321);
+}
+
+.list_header {
+    margin-bottom: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header_info > button {
+    width: 12px;
+    height: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.856);
+
+    cursor: pointer;
+    transition: .2s;
+}
+
+.header_info > button:hover {
+    transform: scale(1.1);
+}
+
+.header_info > button > svg {
+    width: 100%;
+    height: 100%;
+}
+
+.header_info > button > svg path:first-child {
+    fill: rgb(15, 202, 15);
+}
+
+.header_info > button > svg path:nth-child(2) {
+    fill: white;
+}
+
+.header_info > p {
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+
+    color: rgba(255, 255, 255, 0.856);
+}
+
+.header_menu {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.header_menu > button {
+    width: 23px;
+    height: 23px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: transparent;
+
+    transition: .2s;
+}
+
+.header_menu > button:hover {
+    background-color: rgba(255, 255, 255, 0.122);
+}
+
+.header_menu > button > svg {
+    fill: rgba(255, 255, 255, 0.856);
+}
+
+.task_list {
+}
+
+.add_task_container {
+    margin-top: 10px;
+}
+
+.add_task_container > button {
+    padding: 5px 3px 5px 3px;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    /* font-weight: bold; */
+    letter-spacing: 1px;
+
+    border-radius: 3px;
+    cursor: pointer;
+
+    color: rgba(255, 255, 255, 0.523);
+    background-color: transparent;
+
+    /* display: none; */
+}
+
+.add_task_container > button:hover {
+    background-color: rgba(255, 255, 255, 0.105);
+}
+
+.add_task_form {
+    overflow: hidden;
+
+    transition: .3s;
+}
+
+.show_task_form {
+    height: 72px;
+    margin-top: 10px;
+}
+
+.hide_task_form {
+    height: 0; /* colocar height ao invés de display */
+}
+
+.input_container {
+    margin-bottom: 5px;
+}
+
+.input_container > textarea {
+    width: 100%;
+    height: 40px;
+
+    padding: 5px;
+
+    resize: none;
+
+    border-radius: 5px;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    overflow: hidden;
+
+    color: white;
+    background-color: rgba(0, 0, 0, 0.901);
+}
+
+.add_task_buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.add_task_buttons > button:first-child {
+    padding: 3px 10px;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    letter-spacing: .5px;
+
+    border-radius: 3px;
+    color: white;
+    background-color: black;
+
+    cursor: pointer;
+}
+
+.add_task_buttons > button:nth-child(2) {
+    padding: 5px 3px 0px 3px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.add_task_buttons > button:nth-child(2) > svg {
+    fill: white;
+    font-size: 14px;
+}
+
+
+/* Estilo Interativo */
+
+.form_edit_title {
+    position: relative;
+}
+
+.form_edit_title > input {
+    width: 130px;
+    height: 20px;
+
+    padding-left: 5px;
+    font-size: 12px;
+    font-family: "inter";
+
+    border-radius: 3px;
+    color: white;
+    background-color: black;
+}
+
+.form_edit_title > button {
+    height: 15px;
+    padding: 0px 2px;
+
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    font-size: 10px;
+    font-family: "inter", sans-serif;
+
+    cursor: pointer;
+    border-radius: 3px;
+    color: black;
+    background-color: white;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid white;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

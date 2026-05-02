@@ -9,6 +9,7 @@ import Completed from "../pages/Completed/Completed";
 import Canceled from "../pages/Canceled/Canceled";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import ProjectPage from "../pages/ProjectPage/ProjectPage";
 
 export const router = createBrowserRouter([
     {path: "/login", element: <Login />}, 
@@ -26,7 +27,9 @@ export const router = createBrowserRouter([
 
             {path: "inprogress", element: <InProgress />},
             {path: "completed", element: <Completed />},
-            {path: "canceled", element: <Canceled />}
+            {path: "canceled", element: <Canceled />},
+
+            {path: "/project/:id", element: <ProjectPage />}
         ]
     }
 ])

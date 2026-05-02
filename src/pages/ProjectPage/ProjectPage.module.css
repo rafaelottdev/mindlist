@@ -1,0 +1,144 @@
+.project_list_section {
+    padding: 50px;
+}
+
+.project_list {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.project_item {
+    position: relative;
+}
+
+.add_list_btn {
+    width: 180px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: capitalize;
+
+    border-radius: 5px;
+
+    user-select: none;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+
+    transition: .2s ease;
+}
+
+.add_list_btn:hover {
+    transform: scale(1.01);
+}
+
+.create_list_container {
+    width: 180px;
+    height: 0;
+
+    overflow: hidden;
+    
+    margin-top: 10px;
+
+    position: absolute;
+
+    font-family: "lato";
+    border-radius: 5px;
+    background-color: black;
+
+    transition: all .3s ease;
+}
+
+.create_list_container input {
+    width: 100%;
+
+    padding: 5px;
+    margin-bottom: 15px;
+
+    font-family: "lato";
+    letter-spacing: .5px;
+
+    border-radius: 3px;
+
+    color: white;
+    background-color: rgba(255, 255, 255, 0.086);
+}
+
+.project_controller {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.project_controller > button:nth-child(1) {
+    padding: 3px 10px;
+
+    border-radius: 5px;
+    letter-spacing: .5px;
+    font-weight: bold;
+    
+    cursor: pointer;
+    border-radius: 3px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.086);
+
+    transition: .2s;
+}
+
+.project_controller > button:nth-child(1):hover {
+    transform: scale(1.03);
+}
+
+.project_controller > button:nth-child(2) {
+    padding: 5px 5px 0px 5px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.project_controller > button > svg {
+    fill: white;
+}
+
+/* Estilo Interativo */
+
+.show_modal {
+    height: 75px;
+    padding: 5px;
+}
+
+.list_loading {
+  width: 250px;
+  height: 86px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.list_loading::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

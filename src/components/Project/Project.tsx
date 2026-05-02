@@ -61,7 +61,7 @@ function Project({ id, name, image, status, onDelete }: Props) {
 
     return (
         <li className={styles.project_item}>
-            <Link to="/" className={styles.project_link}>
+            <Link to={`/project/${id}`} className={styles.project_link}>
                 <div className={styles.project_img_wrapp} style={{ backgroundImage: `url(${image})` }}></div>
 
                 <div className={styles.project_info}>
