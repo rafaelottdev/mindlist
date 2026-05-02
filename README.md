@@ -98,7 +98,9 @@ Durante o desenvolvimento foram utilizados diversos conceitos importantes do eco
 
 ## 📸 Preview
 
-![preview](./preview.png)
+<img width="550" alt="Captura de tela 2026-05-02 200514" src="https://github.com/user-attachments/assets/27e6c6d5-e23b-4636-b89e-b1a972e93c11" />
+<img width="550" alt="Captura de tela 2026-05-02 200500" src="https://github.com/user-attachments/assets/efc92deb-73aa-4692-8157-2d9f30b79ad4" />
+
 
 ## ⚙️ Como Rodar o Projeto
 
