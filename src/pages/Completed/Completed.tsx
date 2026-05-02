@@ -42,7 +42,7 @@ function Completed() {
                             name={project.name}
                             image={project.image_url}
                             status={project.status}
-                            onDelete={fetchProjects}
+                            onUpdate={fetchProjects}
                         />
                         )) :
 

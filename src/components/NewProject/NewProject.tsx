@@ -1,7 +1,7 @@
 import { FaCircleXmark } from "react-icons/fa6";
 
 import styles from "./NewProject.module.css"
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 type Props = {

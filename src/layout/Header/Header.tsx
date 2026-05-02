@@ -11,7 +11,6 @@ import { MdOutlineLogout } from "react-icons/md";
 
 function Header() {
     const [userName, setUserName] = useState<string | null>(null)
-    const [session, setSession] = useState<any>(null)
     const { showError } = useFeedback()
     
     useEffect(() => {
@@ -37,14 +36,6 @@ function Header() {
             return
         }
     }
-
-    useEffect(() => {
-        const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
-            setSession(session)
-        })
-
-        return () => listener.subscription.unsubscribe()
-    }, [])
 
     return (
         <header className={styles.header}>
