@@ -4,7 +4,7 @@ import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
 import { FaCircleXmark } from "react-icons/fa6";
 import Task from "../Task/Task";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 type Props = {
@@ -28,6 +28,9 @@ function List({ id, title, status, onUpdate }: Props) {
     const [tasks, setTasks] = useState<any[]>([])
 
     const loadingGlobalTimer: number = 1000
+
+    const inputRef = useRef<HTMLTextAreaElement | null>(null)
+    const changeInputRef = useRef<HTMLInputElement | null>(null)
 
     const checkList = async () => {
         const newCompleted = !completed
@@ -119,11 +122,16 @@ function List({ id, title, status, onUpdate }: Props) {
     }
 
     const handleCreateTask = async () => {
+        if(!taskTitle) return
+
+        if(tasks.length >= 8) {
+            alert("Só é permitido até 8 tarefas")
+            return
+        }
+        
         setCreatingTask(true)
 
         try {
-            if(!taskTitle) return
-
             setTaskForm(false)
 
             await new Promise((resolve) => {
@@ -167,6 +175,12 @@ function List({ id, title, status, onUpdate }: Props) {
         fetchTasks()
     }, [])
 
+    useEffect(() => {
+        if(openInput) {
+            changeInputRef.current?.focus()
+        }
+    }, [openInput])
+
     return (
         <li className={styles.list_item}>
             <div className={styles.list_header}>
@@ -185,7 +199,7 @@ function List({ id, title, status, onUpdate }: Props) {
                             <div className={styles.spinner}></div>
                         ) : openInput ? (
                             <form className={styles.form_edit_title} onSubmit={(e) => e.preventDefault()}>
-                                <input type="text" maxLength={11} value={handleChange} onChange={(e) => setHandleChange(e.target.value)}/>
+                                <input type="text" maxLength={11} value={handleChange} onChange={(e) => setHandleChange(e.target.value)} ref={changeInputRef}/>
                                 <button onClick={changeTitleList}>Editar</button>
                             </form>
                             
@@ -196,7 +210,7 @@ function List({ id, title, status, onUpdate }: Props) {
                 </div>
 
                 <div className={styles.header_menu}>
-                    <button onClick={() => { setOpenInput(!openInput); setHandleChange(""); setTaskForm(false) }}>
+                    <button onClick={() => { setOpenInput(!openInput); setHandleChange(""); setTaskForm(false); }}>
                         <BiSolidPencil />
                     </button>
                     
@@ -230,11 +244,11 @@ function List({ id, title, status, onUpdate }: Props) {
             </ul>
 
             <div className={styles.add_task_container}>
-                <button onClick={() => { setTaskForm(!taskForm); setOpenInput(false) }}>+ Adicionar Tarefa</button>
+                <button onClick={() => { setTaskForm(!taskForm); setOpenInput(false); inputRef.current?.focus() }}>+ Adicionar Tarefa</button>
 
                 <form className={`${styles.add_task_form} ${taskForm ? styles.show_task_form : styles.hide_task_form}`} onSubmit={(e) => { e.preventDefault(); handleCreateTask() }}>
                     <div className={styles.input_container}>
-                        <textarea maxLength={20} value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)}/>
+                        <textarea maxLength={20} value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} ref={inputRef}/>
                     </div>
 
                     <div className={styles.add_task_buttons}>

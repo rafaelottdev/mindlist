@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "./MainContent.module.css"
+import globalStyles from "../../../styles/projectList.module.css"
 
 import NewProject from "../../../components/NewProject/NewProject";
 import { supabase } from "../../../lib/supabase";
@@ -9,6 +10,8 @@ function MainContent() {
   const [show, setShow] = useState<boolean>(false)
   const [projects, setProjects] = useState<any[]>([])
   const [creatingProject, setCreatingProject] = useState(false)
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   const fetchProjects = async () => {
       const { data: sessionData  } = await supabase.auth.getSession()
@@ -32,12 +35,13 @@ function MainContent() {
 
   const handleClick = () => {
     setShow(!show)
+    inputRef.current?.focus()
   }
 
   return (
     <>
-      <section className={styles.projects_section}>
-        <ul className={styles.projects_list}>
+      <section className={globalStyles.projects_section}>
+        <ul className={globalStyles.projects_list}>
           {
             projects.map((project) => (
               <Project
@@ -46,7 +50,7 @@ function MainContent() {
                 name={project.name}
                 image={project.image_url}
                 status={project.status}
-                onDelete={fetchProjects}
+                onUpdate={fetchProjects}
               />
             ))
           }
@@ -61,7 +65,7 @@ function MainContent() {
           <li className={styles.create_new_project_item}>
             <button className={styles.create_new_project_btn} onClick={handleClick}>+ Criar novo projeto</button>
             
-            <NewProject setCreatingProject={setCreatingProject} show={show} handleClick={handleClick} onProjectCreated={fetchProjects} />
+            <NewProject setCreatingProject={setCreatingProject} show={show} handleClick={handleClick} onProjectCreated={fetchProjects} projects={projects} inputRef={inputRef} />
           </li>
         </ul>
       </section>

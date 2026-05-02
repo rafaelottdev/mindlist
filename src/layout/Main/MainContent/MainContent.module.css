@@ -1,14 +1,3 @@
-.projects_section {
-    padding: 50px;
-}
-
-.projects_list {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-
 .create_new_project_item {
     position: relative;
 }

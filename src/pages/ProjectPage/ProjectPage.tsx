@@ -1,7 +1,7 @@
 import { FaCircleXmark } from "react-icons/fa6";
 
 import styles from "./ProjectPage.module.css"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { useParams } from "react-router";
 import List from "../../components/List/List";
@@ -11,6 +11,8 @@ function ProjectPage() {
     const [show, setShow] = useState<boolean>(false)
     const [lists, setLists] = useState<any[]>([])
     const { id } = useParams()
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
 
     const [creatingList, setCreatingList] = useState<boolean>(false)
 
@@ -30,16 +32,17 @@ function ProjectPage() {
         setLists(data)
     }
 
-    useEffect(() => {
-        fetchLists()
-    }, [])
-
     const handleCreateList = async () => {
+        if(!listName) return
+
+        if(lists.length >= 5) {
+            alert("Só é permitido até 5 listas")
+            return
+        }
+
         setCreatingList(true)
 
         try {
-            if(!listName) return
-
             await new Promise((resolve) => {
                 setTimeout(resolve, 1000)
             })
@@ -86,7 +89,12 @@ function ProjectPage() {
     const handleClick = () => {
         setShow(!show)
         setListName("")
+        inputRef.current?.focus()
     }
+
+    useEffect(() => {
+        fetchLists()
+    }, [])
 
     return (
         <section className={styles.project_list_section}>
@@ -115,12 +123,12 @@ function ProjectPage() {
 
                     <div className={`${styles.create_list_container} ${show ? styles.show_modal : ""}`}>
                         <form onSubmit={(e) => { e.preventDefault(); handleCreateList() }}>
-                            <input type="text" value={listName} onChange={(e) => setListName(e.target.value)} />
+                            <input type="text" value={listName} onChange={(e) => setListName(e.target.value)} maxLength={13} ref={inputRef} />
 
                             <div className={styles.project_controller}>
                                 <button type="submit">Adicionar</button>
 
-                                <button onClick={handleClick}>
+                                <button onClick={(e) => { e.preventDefault(); handleClick() }}>
                                     <FaCircleXmark />
                                 </button>
                             </div>

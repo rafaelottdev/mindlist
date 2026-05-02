@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabase"
 
 import Project from "../../components/Project/Project"
 
-import styles from "../../layout/Main/MainContent/MainContent.module.css"
+import styles from "../../styles/projectList.module.css"
 
 function InProgress() {
     const [projects, setProjects] = useState<any[]>([])
@@ -33,6 +33,8 @@ function InProgress() {
             <section className={styles.projects_section}>
                 <ul className={styles.projects_list}>
                     {
+                        projects.length > 0 ?
+
                         projects.map((project) => (
                         <Project
                             key={project.id}
@@ -42,7 +44,17 @@ function InProgress() {
                             status={project.status}
                             onDelete={fetchProjects}
                         />
-                        ))
+                        )) :
+
+                        <div style={{ 
+                            color: "white", 
+                            fontSize: "21px", 
+                            fontFamily: "Lato", 
+                            letterSpacing: "1px",
+                            margin: "0 auto"
+                        }}>
+                            Sem Projetos Ativos Por aqui
+                        </div>
                     }
                 </ul>
             </section>

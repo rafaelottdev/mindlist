@@ -1,7 +1,7 @@
 import { FaCircleXmark } from "react-icons/fa6";
 
 import styles from "./NewProject.module.css"
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 type Props = {
@@ -9,9 +9,11 @@ type Props = {
     onProjectCreated: () => void
     show: boolean
     setCreatingProject: React.Dispatch<React.SetStateAction<boolean>>
+    projects: any[],
+    inputRef: any
 }
 
-function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }: Props) {
+function NewProject({ handleClick, onProjectCreated, show, setCreatingProject, projects, inputRef }: Props) {
     const [file, setFile] = useState<File | null>(null)
     const [name, setName] = useState("")
 
@@ -27,6 +29,11 @@ function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }:
     const handleCreateProject = async () => {
         if(!file || !name) {
             alert("Projeto incompleto")
+            return
+        }
+
+        if(projects.length >= 4) {
+            alert("Não é permitido mais que 4 projetos")
             return
         }
 
@@ -55,7 +62,7 @@ function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }:
 
             const imageUrl = data.publicUrl
 
-            // novo
+            // Pegando posição
             const { data: lastProjects } = await supabase
             .from("projects")
             .select("position")
@@ -65,7 +72,6 @@ function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }:
 
             const lastProject = lastProjects?.[0]
             const newPosition = lastProject ? lastProject.position + 1 : 0
-            // ------------------------
 
             // salvar no banco
             const { error: insertError } = await supabase.from("projects").insert({
@@ -106,7 +112,7 @@ function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }:
                 </div>
 
                 <div className={styles.project_name}>
-                    <input type="text" name="name" id="name" placeholder="Nome do projeto" autoComplete="off" value={name} onChange={(e) => setName(e.target.value)} />
+                    <input type="text" name="name" id="name" placeholder="Nome do projeto" autoComplete="off" maxLength={18} value={name} onChange={(e) => setName(e.target.value)} ref={inputRef} />
                 </div>
 
                 <div className={styles.project_btn_container}>
@@ -122,5 +128,3 @@ function NewProject({ handleClick, onProjectCreated, show, setCreatingProject }:
 }
 
 export default NewProject
-
-// fazer cada projeto ser um Link que vai pra uma pagina, cada projeto vai pra uma pagina diferente

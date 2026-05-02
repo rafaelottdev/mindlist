@@ -33,6 +33,8 @@
 
     padding-left: 10px;
 
+    position: relative;
+
     display: flex;
     align-items: center;
 
@@ -56,12 +58,21 @@
 
     display: flex;
     align-items: center;
+
+    position: absolute;
+    right: 60px;
 }
 
 .project_info_list > li > button {
     cursor: pointer;
     color: white;
     background-color: transparent;
+
+    transition: .2s;
+}
+
+.project_info_list > li > button:hover {
+    transform: scale(1.1);
 }
 
 .project_info_list > li:first-child {
@@ -82,12 +93,14 @@
 
 .project_trash_btn {
     margin-top: 5px;
-    margin-left: 30px;
 
     cursor: pointer;
 
     background-color: transparent;
     transition: .2s;
+
+    position: absolute;
+    right: 20px;
 }
 
 .project_trash_btn:hover {

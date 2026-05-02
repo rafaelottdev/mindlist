@@ -14,10 +14,10 @@ type Props = {
     name: string
     image: string
     status: string
-    onDelete: () => void
+    onUpdate: () => void
 }
 
-function Project({ id, name, image, status, onDelete }: Props) {
+function Project({ id, name, image, status, onUpdate }: Props) {
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
 
@@ -35,7 +35,7 @@ function Project({ id, name, image, status, onDelete }: Props) {
                 return
             }
     
-            onDelete()
+            onUpdate()
         }
 
         catch(error) {
@@ -56,7 +56,7 @@ function Project({ id, name, image, status, onDelete }: Props) {
             return
         }
 
-        onDelete()
+        onUpdate()
     }
 
     return (

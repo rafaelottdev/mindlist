@@ -45,12 +45,6 @@ function Register() {
 
         try {
             const validPass: boolean = passwordRegex.test(user.password)
-            const { data: existingUser } = await supabase.from("users").select("*").eq("email", user.email).single()
-
-            if(existingUser) {
-                showError("Email ja cadastrado")
-                return
-            }
             
             if (!validPass) {
                 showError("Senha muito fraca")

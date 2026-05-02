@@ -3,7 +3,7 @@ import styles from "./Task.module.css"
 import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 type Props = {
@@ -23,6 +23,8 @@ function Task({ id, title, status, onUpdate }: Props) {
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
 
     const loadingGlobalTimer: number = 1000
+
+    const changeInputRef = useRef<HTMLInputElement | null>(null)
 
     const checkTask = async () => {
         const newCompleted = !completed
@@ -97,6 +99,12 @@ function Task({ id, title, status, onUpdate }: Props) {
         setIsDeleting(false)
     }
 
+    useEffect(() => {
+        if(openInput) {
+            changeInputRef.current?.focus()
+        }
+    }, [openInput])
+
     return (
         <li className={styles.task_item}>
             <div className={styles.task_info}>
@@ -116,7 +124,7 @@ function Task({ id, title, status, onUpdate }: Props) {
                             <div className={styles.spinner}></div>
                         ) : openInput ? (
                             <form className={styles.form_edit_title} onSubmit={(e) => e.preventDefault()}>
-                                <input type="text" maxLength={11} value={handleChange} onChange={(e) => setHandleChange(e.target.value)}/>
+                                <input type="text" maxLength={11} value={handleChange} onChange={(e) => setHandleChange(e.target.value)} ref={changeInputRef}/>
                                 <button onClick={changeTitleTask}>Editar</button>
                             </form>
                             
