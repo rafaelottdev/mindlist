@@ -85,6 +85,14 @@ function Header() {
                             Canceladas
                         </NavLink>
                     </li>
+
+                    <section className={styles.menu_section_mobile}>
+                        <p className={styles.user_name_mobile}>{userName}</p>
+
+                        <button className={styles.logou_btn_mobile} onClick={logoutAccount}>
+                            <MdOutlineLogout />
+                        </button>
+                    </section>
                 </ul>
             </nav>
 

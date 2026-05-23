@@ -132,6 +132,10 @@
     height: 55px;
 }
 
+.menu_section_mobile {
+    display: none;
+}
+
 @media (max-width:992px) {
     .header {
         padding: 0px 20px;
@@ -189,15 +193,54 @@
         transition: .3s;
     }
 
-    .menu_section {
-        display: none;
-    }
-
     .showMenuBtn  {
         display: block;
     }
 
     .showMenu {
         transform: translateX(0px);
+    }
+
+    .menu_section {
+        display: none;
+    }
+
+    .menu_section_mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        position: absolute;
+        bottom: 160px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+    }
+
+    .user_name_mobile {
+        font-size: 18px;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-transform: capitalize;
+
+        color: white;
+    }
+
+    .logou_btn_mobile {
+        padding: 0px;
+
+        cursor: pointer;
+        background-color: transparent;
+        transition: .2s;
+    }
+
+    .logou_btn_mobile:hover {
+        transform: scale(1.1);
+    }
+
+    .logou_btn_mobile > svg {
+        fill: white;
+        font-size: 24px;
     }
 }
