@@ -48,7 +48,7 @@ function InProgress() {
 
                         <div style={{ 
                             color: "white", 
-                            fontSize: "21px", 
+                            fontSize: "16px", 
                             fontFamily: "Lato", 
                             letterSpacing: "1px",
                             margin: "0 auto"

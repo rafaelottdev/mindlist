@@ -142,3 +142,17 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width:992px) {
+    .project_list_section {
+        margin-bottom: 130px;
+        padding: 20px 0px;
+    }
+
+    .project_list {
+        flex-direction: column;
+
+        gap: 20px;
+        align-items: center;
+    }
+}

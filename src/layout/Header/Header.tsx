@@ -12,6 +12,7 @@ import { MdOutlineLogout } from "react-icons/md";
 function Header() {
     const [userName, setUserName] = useState<string | null>(null)
     const { showError } = useFeedback()
+    const [showMenuMobile, setShowMenuMobile] = useState<boolean>(false)
     
     useEffect(() => {
         supabase.auth.getUser().then(({ data }) => {
@@ -52,7 +53,15 @@ function Header() {
             </section>
 
             <nav className={styles.nav}>
-                <ul className={styles.nav_list}>
+                <div className={`${styles.menu_container} ${showMenuMobile ? `${styles.showMenuBtn}` : ""}`} onClick={() => setShowMenuMobile(true)}>
+                    <i className="bi bi-list"></i>
+                </div>
+
+                <ul className={`${styles.nav_list} ${showMenuMobile ? `${styles.showMenu}` : ""}`}>
+                    <div className={styles.close_menu_container} onClick={() => setShowMenuMobile(false)}>
+                        <i className="bi bi-x-lg"></i>
+                    </div>
+
                     <li className={styles.nav_list_item}>
                         <NavLink to="/" className={({ isActive }) => isActive ? `${styles.active}` : ""}>
                             Home

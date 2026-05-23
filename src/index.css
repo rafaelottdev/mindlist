@@ -13,5 +13,10 @@
 
 html, body {
     scroll-behavior: smooth;
+    
     background-color: rgb(37, 35, 35);
+}
+
+html {
+    overflow-x: hidden;
 }
