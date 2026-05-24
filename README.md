@@ -143,5 +143,3 @@ Rafael Ott <br/>
 Portfólio: Em Produção <br/>
 LinkedIn: [https://www.linkedin.com/rafaelott](https://www.linkedin.com/in/rafael-ott-8435572b1/) <br/>
 Projeto Online: [mindlist.vercel.app](https://mindlist-project.vercel.app/login)
-
-
